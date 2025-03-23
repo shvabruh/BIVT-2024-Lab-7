@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Linq;
+using static Lab_7.Green_1;
 using static Lab_7.Green_4;
 
 
@@ -87,67 +88,67 @@ namespace Lab_7
             }
 
         }
-    }
 
-    public abstract class Discipline
-    {
-        private string _name;
-        private Participant[] _participants;
-
-        public string Name => _name;
-        public Participant[] Participants => _participants;
-
-        public Discipline(string name)
+        public abstract class Discipline
         {
-            _name = name;
-            _participants = new Participant[0];
-            
-        }
+            private string _name;
+            private Participant[] _participants;
 
-        public void Add(Participant participant)
-        {
-            Participant[] updated = new Participant[_participants.Length + 1];
+            public string Name => _name;
+            public Participant[] Participants => _participants;
 
-            for (int i = 0; i < _participants.Length; i++)
+            public Discipline(string name)
             {
-                updated[i] = _participants[i];
+                _name = name;
+                _participants = new Participant[0];
+
             }
-            updated[updated.Length - 1] = participant;
 
-            _participants = updated;
-        }
-        public void Add(Participant[] participants)
-        { 
-            int oldLength = _participants.Length;
-            Array.Resize(ref _participants, oldLength + participants.Length);
-            Array.Copy(participants, 0, _participants, oldLength, participants.Length);
-        }
-
-        public void Sort()
-        {
-            Participant.Sort(_participants);
-        }
-
-        public abstract void Retry(int index);
-
-        public void Print()
-        {
-            Console.WriteLine($"Дисциплина: {Name}");
-            foreach (var p in _participants)
+            public void Add(Participant participant)
             {
-                p.Print();
+                Participant[] updated = new Participant[_participants.Length + 1];
+
+                for (int i = 0; i < _participants.Length; i++)
+                {
+                    updated[i] = _participants[i];
+                }
+                updated[updated.Length - 1] = participant;
+
+                _participants = updated;
+            }
+            public void Add(Participant[] participants)
+            {
+                int oldLength = _participants.Length;
+                Array.Resize(ref _participants, oldLength + participants.Length);
+                Array.Copy(participants, 0, _participants, oldLength, participants.Length);
+            }
+
+            public void Sort()
+            {
+                Participant.Sort(_participants);
+            }
+
+            public abstract void Retry(int index);
+
+            public void Print()
+            {
+                Console.WriteLine($"Дисциплина: {Name}");
+                foreach (var p in _participants)
+                {
+                    p.Print();
+                }
             }
         }
 
         public class LongJump : Discipline
         {
             public LongJump() : base("Long jump")
-            {   
+            {
             }
 
             public override void Retry(int index)
             {
-                if (index < 0 || index > _participants.Length) return;
+                if (index < 0 || index > Participants.Length) return;
                 Participant p = Participants[index];
                 double best = p.BestJump;
                 Participant newP = new Participant(p.Name, p.Surname);
@@ -166,7 +167,7 @@ namespace Lab_7
 
             public override void Retry(int index)
             {
-                if (index < 0 || index > _participants.Length) return;
+                if (index < 0 || index > Participants.Length) return;
 
                 Participant p = Participants[index];
                 double[] jumps = p.Jumps;
@@ -189,12 +190,14 @@ namespace Lab_7
                 {
                     if (jumps[i] > 0)
                     {
-                        newP.Jump(jumps[i]); 
+                        newP.Jump(jumps[i]);
                     }
                 }
                 Participants[index] = newP;
             }
         }
     }
+
+    
 
 }

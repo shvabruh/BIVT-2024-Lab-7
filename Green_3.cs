@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 
@@ -154,7 +154,7 @@ namespace Lab_7
             }
         }
 
-        public class Comission
+        public class Commission
         {
             public static void Sort(Student[] students)
             {

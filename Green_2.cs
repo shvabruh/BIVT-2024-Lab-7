@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 
@@ -32,10 +32,10 @@ namespace Lab_7
                 _surname = surname;
             }
 
-            //public void Print()
-            //{
-            //    Console.WriteLine($"{Name} {Surname}");
-            //}
+            public void Print()
+            {
+                Console.WriteLine($"{Name} {Surname}");
+            }
         }
         public class Student : Human
         {

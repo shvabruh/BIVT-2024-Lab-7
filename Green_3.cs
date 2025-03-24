@@ -154,7 +154,7 @@ namespace Lab_7
             }
         }
 
-        public class Commission
+        public class Comission
         {
             public static void Sort(Student[] students)
             {

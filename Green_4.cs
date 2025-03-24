@@ -1,7 +1,5 @@
 using System;
 using System.Linq;
-using static Lab_7.Green_1;
-using static Lab_7.Green_4;
 
 
 namespace Lab_7
@@ -13,6 +11,9 @@ namespace Lab_7
             private string _name;
             private string _surname;
             private double[] _jumps;
+            private Participant[] _participants;
+
+            public Participant[] Participants => _participants;
 
             public string Name => _name;
 
@@ -44,6 +45,7 @@ namespace Lab_7
                 _name = name;
                 _surname = surname;
                 _jumps = new double[3];
+                _participants = new Participant[0];
             }
 
             public void Jump(double result)
@@ -82,28 +84,6 @@ namespace Lab_7
                 }
             }
 
-            public void Print()
-            {
-                Console.WriteLine($" {Name} {Surname} {BestJump}");
-            }
-
-        }
-
-        public abstract class Discipline
-        {
-            private string _name;
-            private Participant[] _participants;
-
-            public string Name => _name;
-            public Participant[] Participants => _participants;
-
-            public Discipline(string name)
-            {
-                _name = name;
-                _participants = new Participant[0];
-
-            }
-
             public void Add(Participant participant)
             {
                 Participant[] updated = new Participant[_participants.Length + 1];
@@ -126,6 +106,28 @@ namespace Lab_7
             public void Sort()
             {
                 Participant.Sort(_participants);
+            }
+
+            public void Print()
+            {
+                Console.WriteLine($" {Name} {Surname} {BestJump}");
+            }
+
+        }
+
+        public abstract class Discipline
+        {
+            private string _name;
+            private Participant[] _participants;
+
+            public string Name => _name;
+            public Participant[] Participants => _participants;
+
+            public Discipline(string name)
+            {
+                _name = name;
+                _participants = new Participant[0];
+
             }
 
             public abstract void Retry(int index);

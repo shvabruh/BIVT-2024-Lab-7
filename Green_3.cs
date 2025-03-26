@@ -48,9 +48,9 @@ namespace Lab_7
                 }
             }
 
-            public static int CurrentID
+            private static int CurrentID // сделано приватным
             {
-                get 
+                get
                 {
                     return _studentID;
                 }
@@ -104,6 +104,13 @@ namespace Lab_7
 
             public void Restore()
             {
+                // Проверка: студент не должен быть "новым"
+                if (_id >= CurrentID)
+                {
+                    Console.WriteLine("Студента ранее не было в списке. Восстановление невозможно");
+                    return;
+                }
+
                 if (_session_outcome == true) _session_outcome = false;
             }
 
@@ -126,6 +133,7 @@ namespace Lab_7
                 }
             }
 
+
             public static void SortByAvgMark(Student[] array)
             {
                 if (array == null) return;
@@ -143,18 +151,13 @@ namespace Lab_7
                 }
             }
 
-            public static void Restore(ref Student[] students, Student restored)
-            {
-
-            }
-
             public void Print()
             {
                 Console.WriteLine($"{ID} {Name} {Surname} {AvgMark} {IsExpelled}");
             }
         }
 
-        public class Comission
+        public class Commission
         {
             public static void Sort(Student[] students)
             {
@@ -187,32 +190,29 @@ namespace Lab_7
                 if (students.Any(s => s.ID == restored.ID))
                 {
                     Console.WriteLine("Студент уже есть в списке. Дублирования не произошло");
-                    return; 
+                    return;
                 }
 
-                if (restored.ID >= Student.CurrentID)
+                restored.Restore(); //Вызов Restore из Student (с проверкой ID и сбросом статуса)
+
+                Student[] newStudentArray = new Student[students.Length + 1];
+                bool inserted = false;
+                int index = 0;
+
+                for (int i = 0; i < newStudentArray.Length; i++)
                 {
-                    Console.WriteLine("Студента ранее не было в списке. Восстановление невозможно");
-                    Student[] newStudentArray = new Student[students.Length + 1];
-                    bool inserted = false;
-                    int index = 0;
-
-                    for (int i = 0; i < newStudentArray.Length; i++)
+                    if (!inserted && (index >= students.Length || restored.ID < students[index].ID))
                     {
-                        if (!inserted && (index >= students.Length || restored.ID < students[index].ID))
-                        {
-                            newStudentArray[i] = restored;
-                            inserted = true;
-                        }
-                        else 
-                        {
-                            newStudentArray[i] = students[index];
-                            index++;
-                        }
+                        newStudentArray[i] = restored;
+                        inserted = true;
                     }
-                    students = newStudentArray;
+                    else
+                    {
+                        newStudentArray[i] = students[index];
+                        index++;
+                    }
                 }
-
+                students = newStudentArray;
             }
         }
     }

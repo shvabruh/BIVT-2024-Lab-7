@@ -8,13 +8,18 @@ namespace Lab_7
     {
         public class Student
         {
-            private static int _studentID = 1;
+            private static int _studentID;
             private int _id;
             private string _name;
             private string _surname;
             private int[] _marks;
             private int _count_exams;
             private bool _session_outcome;
+
+            static Student()
+            {
+                _studentID = 1;
+            }
 
             public Student(string name, string surname)
             {
@@ -166,7 +171,7 @@ namespace Lab_7
                 {
                     for (int j = i + 1; j < students.Length; j++)
                     {
-                        if (students[i].ID < students[j].ID)
+                        if (students[i].ID > students[j].ID) // смена знака
                         {
                             Student temp = students[i];
                             students[i] = students[j];

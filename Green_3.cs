@@ -142,7 +142,7 @@ namespace Lab_7
             public static void SortByAvgMark(Student[] array)
             {
                 if (array == null) return;
-                for (int i = 1; i < array.Length - 1; i++)
+                for (int i = 0; i < array.Length - 1; i++)
                 {
                     for (int j = i + 1; j < array.Length; j++)
                     {
@@ -167,7 +167,7 @@ namespace Lab_7
             public static void Sort(Student[] students)
             {
                 if (students == null) return;
-                for (int i = 1; i < students.Length - 1; i++)
+                for (int i = 0; i < students.Length - 1; i++)
                 {
                     for (int j = i + 1; j < students.Length; j++)
                     {

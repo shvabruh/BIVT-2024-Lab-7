@@ -112,11 +112,10 @@ namespace Lab_7
                 // Проверка: студент не должен быть "новым"
                 if (_id >= CurrentID)
                 {
-                    Console.WriteLine("Студента ранее не было в списке. Восстановление невозможно");
-                    return;
+                    throw new Exception("Студента ранее не было в списке. Восстановление невозможно");
                 }
 
-                if (_session_outcome == true) _session_outcome = false;
+                _session_outcome = false;
             }
 
             public void Exam(int mark)
@@ -146,7 +145,7 @@ namespace Lab_7
                 {
                     for (int j = i + 1; j < array.Length; j++)
                     {
-                        if (i == 0 || array[i].AvgMark < array[j].AvgMark)
+                        if (array[i].AvgMark < array[j].AvgMark)
                         {
                             Student temp = array[i];
                             array[i] = array[j];
@@ -192,13 +191,22 @@ namespace Lab_7
 
             public static void Restore(ref Student[] students, Student restored)
             {
+                
                 if (students.Any(s => s.ID == restored.ID))
                 {
-                    Console.WriteLine("Студент уже есть в списке. Дублирования не произошло");
-                    return;
+                    //Console.WriteLine("Студент уже есть в списке. Дублирования не произошло");
+                    //return;
+                    throw new Exception("Студент уже есть в списке. Дублирования не произошло");
                 }
-
-                restored.Restore(); //Вызов Restore из Student (с проверкой ID и сбросом статуса)
+                //if (restored.IsExpelled == true) restored.Restore();  один из способов //Вызов Restore из Student (с проверкой ID и сбросом статуса)
+                try // второй способ
+                {
+                    if (restored.IsExpelled)
+                    { // можем зачислять только отчисленных
+                        restored.Restore();
+                    }
+                }
+                catch { } // если ошибка, то ничего не делаем и не зачисляем
 
                 Student[] newStudentArray = new Student[students.Length + 1];
                 bool inserted = false;
@@ -222,3 +230,5 @@ namespace Lab_7
         }
     }
 }
+
+

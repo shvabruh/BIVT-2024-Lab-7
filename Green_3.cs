@@ -137,20 +137,25 @@ namespace Lab_7
                 }
             }
 
-
+            // исправление на гномью сортировку
             public static void SortByAvgMark(Student[] array)
             {
+
                 if (array == null) return;
-                for (int i = 0; i < array.Length - 1; i++)
+                for (int i = 1, j = 2; i < array.Length;)
                 {
-                    for (int j = i + 1; j < array.Length; j++)
+                    if (i == 0 || array[i].AvgMark <= array[i - 1].AvgMark)
                     {
-                        if (array[i].AvgMark < array[j].AvgMark)
-                        {
-                            Student temp = array[i];
-                            array[i] = array[j];
-                            array[j] = temp;
-                        }
+                        i = j;
+                        j++;
+                    }
+
+                    else 
+                    {
+                        Student temp = array[i];
+                        array[i] = array[i-1];
+                        array[i-1] = temp;
+                        i--;
                     }
                 }
             }
@@ -206,7 +211,7 @@ namespace Lab_7
                         restored.Restore();
                     }
                 }
-                catch { } // если ошибка, то ничего не делаем и не зачисляем
+                catch { Console.WriteLine("Произошло исключение, студент не зачислен"); } // если ошибка, то ничего не делаем и не зачисляем
 
                 Student[] newStudentArray = new Student[students.Length + 1];
                 bool inserted = false;

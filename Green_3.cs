@@ -211,26 +211,43 @@ namespace Lab_7
                         restored.Restore();
                     }
                 }
-                catch { Console.WriteLine("Произошло исключение, студент не зачислен"); } // если ошибка, то ничего не делаем и не зачисляем
-
-                Student[] newStudentArray = new Student[students.Length + 1];
-                bool inserted = false;
-                int index = 0;
-
-                for (int i = 0; i < newStudentArray.Length; i++)
+                catch 
                 {
-                    if (!inserted && (index >= students.Length || restored.ID < students[index].ID))
+                    Console.WriteLine("Произошло исключение, студент не зачислен"); // если ошибка, то ничего не делаем и не зачисляем
+                    return;
+                }
+
+                if (restored.IsExpelled)
+                {
+                    return;
+                }
+
+                // Теперь вставляем восстановленного студента в массив так, чтобы он оказался на правильном месте
+                int n = students.Length;
+                // Определим индекс для вставки: ищем первое место, где restored.ID меньше ID текущего студента.
+                // по умолчанию – добавляем в конец
+                int insertIndex = n;
+
+                for (int i = 0; i < n; i++)
+                {
+                    if (restored.ID < students[i].ID)
                     {
-                        newStudentArray[i] = restored;
-                        inserted = true;
-                    }
-                    else
-                    {
-                        newStudentArray[i] = students[index];
-                        index++;
+                        insertIndex = i;
+                        break;
                     }
                 }
-                students = newStudentArray;
+
+                // Изменяем размер массива: увеличиваем на 1 (Array.Resize создаёт новый массив внутри - встроенная функция)
+                Array.Resize(ref students, n + 1);
+
+                // Сдвигаем элементы вправо, начиная с insertIndex
+                for (int i = n; i > insertIndex; i--)
+                {
+                    students[i] = students[i - 1];
+                }
+
+                // Вставляем восстановленного студента в найденную позицию
+                students[insertIndex] = restored;
             }
         }
     }

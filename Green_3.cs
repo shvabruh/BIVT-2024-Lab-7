@@ -196,58 +196,61 @@ namespace Lab_7
 
             public static void Restore(ref Student[] students, Student restored)
             {
-                
-                if (students.Any(s => s.ID == restored.ID))
-                {
-                    //Console.WriteLine("Студент уже есть в списке. Дублирования не произошло");
-                    //return;
-                    throw new Exception("Студент уже есть в списке. Дублирования не произошло");
-                }
-                //if (restored.IsExpelled == true) restored.Restore();  один из способов //Вызов Restore из Student (с проверкой ID и сбросом статуса)
-                try // второй способ
-                {
-                    if (restored.IsExpelled)
-                    { // можем зачислять только отчисленных
-                        restored.Restore();
-                    }
-                }
-                catch 
-                {
-                    Console.WriteLine("Произошло исключение, студент не зачислен"); // если ошибка, то ничего не делаем и не зачисляем
-                    return;
-                }
 
-                if (restored.IsExpelled)
-                {
-                    return;
-                }
+                //if (students.Any(s => s.ID == restored.ID))
+                //{
+                //    //Console.WriteLine("Студент уже есть в списке. Дублирования не произошло");
+                //    //return;
+                //    throw new Exception("Студент уже есть в списке. Дублирования не произошло");
+                //}
+                ////if (restored.IsExpelled == true) restored.Restore();  один из способов //Вызов Restore из Student (с проверкой ID и сбросом статуса)
+                //try // второй способ
+                //{
+                //    if (restored.IsExpelled)
+                //    { // можем зачислять только отчисленных
+                //        restored.Restore();
+                //    }
+                //}
+                //catch 
+                //{
+                //    Console.WriteLine("Произошло исключение, студент не зачислен"); // если ошибка, то ничего не делаем и не зачисляем
+                //    return;
+                //}
 
-                // Теперь вставляем восстановленного студента в массив так, чтобы он оказался на правильном месте
-                int n = students.Length;
-                // Определим индекс для вставки: ищем первое место, где restored.ID меньше ID текущего студента.
-                // по умолчанию – добавляем в конец
-                int insertIndex = n;
+                //if (restored.IsExpelled)
+                //{
+                //    return;
+                //}
 
-                for (int i = 0; i < n; i++)
+                if (restored != null && students != null && students.Any(s => s.ID == restored.ID) && restored.IsExpelled == true)
                 {
-                    if (restored.ID < students[i].ID)
+                    // Теперь вставляем восстановленного студента в массив так, чтобы он оказался на правильном месте
+                    int n = students.Length;
+                    // Определим индекс для вставки: ищем первое место, где restored.ID меньше ID текущего студента.
+                    // по умолчанию – добавляем в конец
+                    int insertIndex = n;
+
+                    for (int i = 0; i < n; i++)
                     {
-                        insertIndex = i;
-                        break;
+                        if (restored.ID < students[i].ID)
+                        {
+                            insertIndex = i;
+                            break;
+                        }
                     }
-                }
 
-                // Изменяем размер массива: увеличиваем на 1 (Array.Resize создаёт новый массив внутри - встроенная функция)
-                Array.Resize(ref students, n + 1);
+                    // Изменяем размер массива: увеличиваем на 1 (Array.Resize создаёт новый массив внутри - встроенная функция)
+                    Array.Resize(ref students, n + 1);
 
-                // Сдвигаем элементы вправо, начиная с insertIndex
-                for (int i = n; i > insertIndex; i--)
-                {
-                    students[i] = students[i - 1];
-                }
+                    // Сдвигаем элементы вправо, начиная с insertIndex
+                    for (int i = n; i > insertIndex; i--)
+                    {
+                        students[i] = students[i - 1];
+                    }
 
-                // Вставляем восстановленного студента в найденную позицию
-                students[insertIndex] = restored;
+                    // Вставляем восстановленного студента в найденную позицию
+                    students[insertIndex] = restored;
+                }          
             }
         }
     }
